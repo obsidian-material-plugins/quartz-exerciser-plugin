@@ -1,0 +1,532 @@
+.exercise-viewer,
+.exercise-viewer * {
+  box-sizing: border-box;
+}
+
+.exercise-viewer {
+  --exercise-surface: var(--light, #fff);
+  --exercise-inset: color-mix(in srgb, var(--lightgray, #e5e5e5) 42%, var(--light, #fff));
+  --exercise-border: var(--lightgray, #d9d9d9);
+  --exercise-text: var(--dark, #242424);
+  --exercise-muted: var(--gray, #717171);
+  --exercise-input: var(--secondary, #245f9a);
+  --exercise-error: #b42318;
+  color: var(--exercise-text);
+  margin: 1.25rem 0;
+  min-width: 0;
+  font: inherit;
+}
+
+.exercise-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.exercise-name,
+.exercise-current-path,
+.exercise-output-path {
+  font-family: var(--codeFont, ui-monospace, SFMono-Regular, Consolas, monospace);
+}
+
+.exercise-action,
+.exercise-toolbar button,
+.exercise-help,
+.exercise-source-tabs button,
+.exercise-output-tabs button,
+.exercise-tree button {
+  appearance: none;
+  border: 1px solid var(--exercise-border);
+  border-radius: 0.25rem;
+  background: var(--exercise-surface);
+  color: var(--exercise-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.exercise-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2rem;
+  padding: 0.35rem 0.65rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.exercise-action:hover,
+.exercise-action:focus-visible,
+.exercise-toolbar button:hover,
+.exercise-toolbar button:focus-visible,
+.exercise-tree button:hover,
+.exercise-tree button:focus-visible {
+  border-color: var(--exercise-muted);
+  outline: 2px solid color-mix(in srgb, var(--exercise-input) 38%, transparent);
+  outline-offset: 1px;
+}
+
+.exercise-shell {
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--exercise-border);
+  border-radius: 0.4rem;
+  background: var(--exercise-surface);
+}
+
+.exercise-tree {
+  min-width: 0;
+  padding: 0.75rem 0.5rem;
+  border-right: 1px solid var(--exercise-border);
+  background: var(--exercise-inset);
+}
+
+.exercise-tree-title {
+  display: block;
+  padding: 0 0.5rem 0.65rem;
+  font-size: 0.82rem;
+}
+
+.exercise-tree-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.exercise-tree-list .exercise-tree-list {
+  padding-left: 0.85rem;
+}
+
+.exercise-tree summary,
+.exercise-tree-file {
+  width: 100%;
+  min-height: 1.85rem;
+  padding: 0.2rem 0.4rem;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exercise-tree summary {
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.exercise-tree-file {
+  border-color: transparent !important;
+  background: transparent !important;
+  font-size: 0.8rem;
+}
+
+.exercise-tree-file.is-active {
+  background: color-mix(in srgb, var(--exercise-border) 60%, transparent) !important;
+  font-weight: 600;
+}
+
+.exercise-main {
+  min-width: 0;
+}
+
+.exercise-source-tabs {
+  display: flex;
+  min-height: 2.35rem;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--exercise-border);
+  background: var(--exercise-inset);
+}
+
+.exercise-source-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 0 0 auto;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 0.8rem;
+}
+
+.exercise-source-tabs button.is-active {
+  border-bottom: 2px solid var(--exercise-text);
+  background: var(--exercise-surface);
+  font-weight: 600;
+}
+
+.exercise-tab-close {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.exercise-selector {
+  display: none;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--exercise-border);
+}
+
+.exercise-selector select {
+  width: 100%;
+  min-height: 2.4rem;
+  border: 1px solid var(--exercise-border);
+  border-radius: 0.3rem;
+  background: var(--exercise-surface);
+  color: var(--exercise-text);
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+}
+
+.exercise-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--exercise-border);
+}
+
+.exercise-current-path {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.78rem;
+}
+
+.exercise-toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.25rem;
+}
+
+.exercise-toolbar button {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+}
+
+.exercise-viewer[data-exercise-wrap="true"] .exercise-source code,
+.exercise-viewer[data-exercise-wrap="true"] .exercise-raw {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.exercise-file-panel > pre,
+.exercise-file-panel .shiki {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.exercise-file-panel .shiki code {
+  display: block;
+  padding: 1rem 0;
+  counter-reset: exercise-line;
+}
+
+.exercise-file-panel .shiki .line {
+  display: block;
+  min-height: 1.55rem;
+  padding: 0 0.9rem 0 3.6rem;
+  position: relative;
+  counter-increment: exercise-line;
+}
+
+.exercise-file-panel .shiki .line::before {
+  content: counter(exercise-line);
+  position: absolute;
+  left: 0.75rem;
+  width: 2rem;
+  color: var(--exercise-muted);
+  text-align: right;
+  font-size: 0.75rem;
+}
+
+.exercise-line-dim {
+  opacity: 0.48;
+}
+
+.exercise-line-highlight {
+  opacity: 1;
+  background: color-mix(in srgb, var(--exercise-accent, var(--exercise-input)) 10%, transparent);
+  box-shadow: inset 3px 0 var(--exercise-accent, var(--exercise-input));
+}
+
+.exercise-line-annotated::after {
+  content: "ⓘ";
+  margin-left: 0.6rem;
+  color: var(--exercise-input);
+}
+
+.exercise-raw,
+.exercise-terminal,
+.exercise-diff {
+  overflow: auto;
+  padding: 1rem;
+  background: var(--exercise-surface);
+  color: var(--exercise-text);
+  font-family: var(--codeFont, ui-monospace, SFMono-Regular, Consolas, monospace);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.exercise-source-notes {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--exercise-border);
+}
+
+.exercise-source-notes p {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.exercise-annotation {
+  color: var(--exercise-muted);
+}
+
+.exercise-highlight-note {
+  color: var(--exercise-accent, var(--exercise-input));
+}
+
+.exercise-output {
+  border-top: 1px solid var(--exercise-border);
+  background: var(--exercise-inset);
+}
+
+.exercise-output-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.exercise-output-heading strong {
+  flex: 1 1 auto;
+}
+
+.exercise-help {
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+}
+
+.exercise-output-tabs {
+  display: flex;
+  overflow-x: auto;
+  padding: 0 0.75rem;
+}
+
+.exercise-output-tabs button {
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-bottom: 1px solid var(--exercise-border);
+  border-radius: 0;
+  background: transparent;
+}
+
+.exercise-output-tabs button.is-active {
+  border-bottom: 2px solid var(--exercise-text);
+  font-weight: 600;
+}
+
+.exercise-output-path {
+  display: block;
+  padding: 0.7rem 1rem 0;
+  color: var(--exercise-muted);
+  font-size: 0.75rem;
+}
+
+.exercise-terminal {
+  margin: 0;
+  background: transparent;
+}
+
+.exercise-stream {
+  display: inline;
+}
+
+.exercise-stream-stdin {
+  color: var(--exercise-input);
+}
+
+.exercise-stream-stderr,
+.exercise-terminal-stderr {
+  color: var(--exercise-error);
+}
+
+.exercise-media {
+  display: grid;
+  place-items: center;
+  min-height: 13rem;
+  padding: 1rem;
+  background: var(--exercise-surface);
+}
+
+.exercise-media img,
+.exercise-media video,
+.exercise-media audio {
+  max-width: 100%;
+  max-height: 34rem;
+}
+
+.exercise-pdf iframe {
+  width: 100%;
+  min-height: 34rem;
+  border: 1px solid var(--exercise-border);
+}
+
+.exercise-binary,
+.exercise-viewer-state {
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--exercise-border);
+  border-radius: 0.35rem;
+  background: var(--exercise-inset);
+}
+
+.exercise-binary p,
+.exercise-viewer-state p {
+  margin: 0;
+}
+
+.exercise-muted {
+  color: var(--exercise-muted);
+  font-size: 0.8rem;
+}
+
+.exercise-comparison {
+  width: min(62rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  padding: 1rem;
+  overflow: auto;
+  border: 1px solid var(--exercise-border, #d9d9d9);
+  border-radius: 0.4rem;
+  background: var(--light, #fff);
+  color: var(--dark, #242424);
+}
+
+.exercise-comparison::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+
+.exercise-comparison-heading,
+.exercise-comparison-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.exercise-comparison-heading h3 {
+  margin: 0;
+}
+
+.exercise-comparison-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.exercise-comparison-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.exercise-comparison-field textarea {
+  min-height: 10rem;
+  resize: vertical;
+  border: 1px solid var(--exercise-border, #d9d9d9);
+  background: var(--light, #fff);
+  color: var(--dark, #242424);
+  padding: 0.75rem;
+  font-family: var(--codeFont, ui-monospace, monospace);
+}
+
+.exercise-diff {
+  min-height: 5rem;
+  white-space: pre-wrap;
+}
+
+.exercise-diff-expected {
+  background: color-mix(in srgb, #c62b2b 18%, transparent);
+  text-decoration: line-through;
+}
+
+.exercise-diff-actual {
+  background: color-mix(in srgb, #218739 20%, transparent);
+  text-decoration: underline;
+}
+
+.exercise-diff-note {
+  color: var(--exercise-muted, #717171);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 720px) {
+  .exercise-shell {
+    display: block;
+  }
+
+  .exercise-tree,
+  .exercise-source-tabs {
+    display: none;
+  }
+
+  .exercise-selector {
+    display: block;
+  }
+
+  .exercise-preview-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .exercise-toolbar {
+    width: 100%;
+  }
+
+  .exercise-toolbar button {
+    flex: 1 1 0;
+  }
+
+  .exercise-comparison-inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.exercise-layout-dropdown .exercise-shell {
+  display: block;
+}
+
+.exercise-layout-dropdown .exercise-tree,
+.exercise-layout-dropdown .exercise-source-tabs {
+  display: none;
+}
+
+.exercise-layout-dropdown .exercise-selector {
+  display: block;
+}
+
+@media (forced-colors: active) {
+  .exercise-line-highlight,
+  .exercise-tree-file.is-active,
+  .exercise-source-tabs button.is-active {
+    outline: 2px solid CanvasText;
+  }
+}
