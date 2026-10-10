@@ -48,7 +48,7 @@ export const normalizeRelativePath = (value: string): string | null => {
 
 export const normalizeExerciseName = (value: unknown): string | null => {
   const name = asString(value);
-  return name && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(name) && name !== "." ? name : null;
+  return name && /^[A-Za-z0-9_][A-Za-z0-9._-]*$/.test(name) ? name : null;
 };
 
 const normalizePatterns = (value: unknown): string[] =>

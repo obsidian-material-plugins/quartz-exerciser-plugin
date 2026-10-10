@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_PREVIEW_LIMIT_BYTES,
+  normalizeExerciseName,
   parseExerciseFence,
   parseExerciseManifest,
   parsePreviewLimit,
@@ -18,6 +19,20 @@ describe("exercise configuration", () => {
     });
     expect(parseExerciseFence("exercise: ../../private")).toBeNull();
     expect(parseExerciseFence("exercise: exercise-1\nentrypoint: ../../secret")).toBeNull();
+  });
+
+  it("accepts underscore-prefixed template exercises without accepting paths", () => {
+    expect(normalizeExerciseName("_template-exercise-1")).toBe("_template-exercise-1");
+    expect(parseExerciseFence("exercise: _template-exercise-1")).toEqual({
+      exercise: "_template-exercise-1",
+      layout: "ide",
+      entrypoint: undefined,
+      "word-wrap": true,
+    });
+    expect(normalizeExerciseName(".hidden")).toBeNull();
+    expect(normalizeExerciseName("../escape")).toBeNull();
+    expect(normalizeExerciseName("nested/exercise")).toBeNull();
+    expect(normalizeExerciseName("C:\\exercise")).toBeNull();
   });
 
   it("uses 50 MB when root metadata is absent or malformed", () => {

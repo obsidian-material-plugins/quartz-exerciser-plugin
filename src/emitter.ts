@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { zipSync } from "fflate";
 import type { FilePath, QuartzEmitterPlugin } from "@quartz-community/types";
-import { EXERCISE_ROOT, readExerciseManifest } from "./config";
+import { EXERCISE_ROOT, normalizeExerciseName, readExerciseManifest } from "./config";
 import { injectAnnotations, listExercisePaths, matchesAny } from "./model";
 import type { QuartzExerciserOptions } from "./types";
 
@@ -24,7 +24,7 @@ export const emitExerciseArchives = async (
     return emitted;
   }
   for (const exercise of exercises.sort((a, b) => a.name.localeCompare(b.name))) {
-    if (!exercise.isDirectory() || !/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(exercise.name)) continue;
+    if (!exercise.isDirectory() || !normalizeExerciseName(exercise.name)) continue;
     const directory = path.join(root, exercise.name);
     const manifest = await readExerciseManifest(directory);
     const archiveEntries: Record<string, Uint8Array> = {};
