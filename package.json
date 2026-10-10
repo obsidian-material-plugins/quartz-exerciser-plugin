@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/obsidian-material-plugins/quartz-exerciser-plugin.git"
+    "url": "git+https://github.com/obsidian-material-plugins/quartz-exerciser-plugin.git"
   },
   "keywords": [
     "quartz",
@@ -41,7 +41,9 @@
     "format": "prettier . --check",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm run lint && npm run format && npm run test",
+    "check:package-metadata": "node scripts/sync-package-metadata.mjs --check",
+    "check": "npm run check:package-metadata && npm run typecheck && npm run lint && npm run format && npm run test",
+    "changeset:version": "changeset version && node scripts/sync-package-metadata.mjs",
     "prepublishOnly": "npm run build",
     "release": "changeset publish"
   },
@@ -85,7 +87,7 @@
       "transformer",
       "emitter"
     ],
-    "version": "0.1.0",
+    "version": "0.2.0",
     "quartzVersion": ">=5.0.0",
     "dependencies": [],
     "defaultOrder": 10,
