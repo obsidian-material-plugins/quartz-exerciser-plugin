@@ -7318,7 +7318,7 @@ var normalizeRelativePath = (value) => {
 };
 var normalizeExerciseName = (value) => {
   const name = asString(value);
-  return name && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(name) && name !== "." ? name : null;
+  return name && /^[A-Za-z0-9_][A-Za-z0-9._-]*$/.test(name) ? name : null;
 };
 var normalizePatterns = (value) => asStrings(value).flatMap((pattern) => {
   const clean = pattern.replace(/\\/g, "/").replace(/^\.\//, "");
@@ -10532,7 +10532,7 @@ var emitExerciseArchives = async (contentRoot, outputRoot) => {
     return emitted;
   }
   for (const exercise of exercises.sort((a, b) => a.name.localeCompare(b.name))) {
-    if (!exercise.isDirectory() || !/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(exercise.name)) continue;
+    if (!exercise.isDirectory() || !normalizeExerciseName(exercise.name)) continue;
     const directory = path3.join(root, exercise.name);
     const manifest = await readExerciseManifest(directory);
     const archiveEntries = {};
@@ -10578,7 +10578,7 @@ var applyExerciseIgnorePatterns = async (config, contentDirectory = "content") =
   try {
     const entries = await fs2.readdir(exerciseRoot, { withFileTypes: true });
     for (const entry of entries) {
-      if (!entry.isDirectory() || !/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(entry.name)) continue;
+      if (!entry.isDirectory() || !normalizeExerciseName(entry.name)) continue;
       const manifest = await readExerciseManifest(path3.join(exerciseRoot, entry.name));
       for (const excluded of manifest.files["exclude-from-quartz"]) {
         patterns.add(`${EXERCISE_ROOT}/${entry.name}/${excluded}`);

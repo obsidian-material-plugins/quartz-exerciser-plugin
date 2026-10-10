@@ -1,7 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { QuartzConfig } from "@quartz-community/types";
-import { EXERCISE_ROOT, MANIFEST_FILE, readExerciseManifest } from "./config";
+import {
+  EXERCISE_ROOT,
+  MANIFEST_FILE,
+  normalizeExerciseName,
+  readExerciseManifest,
+} from "./config";
 
 /** Apply exercise exclusions before Quartz performs its initial content glob. */
 export const applyExerciseIgnorePatterns = async (
@@ -17,7 +22,7 @@ export const applyExerciseIgnorePatterns = async (
   try {
     const entries = await fs.readdir(exerciseRoot, { withFileTypes: true });
     for (const entry of entries) {
-      if (!entry.isDirectory() || !/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(entry.name)) continue;
+      if (!entry.isDirectory() || !normalizeExerciseName(entry.name)) continue;
       const manifest = await readExerciseManifest(path.join(exerciseRoot, entry.name));
       for (const excluded of manifest.files["exclude-from-quartz"]) {
         patterns.add(`${EXERCISE_ROOT}/${entry.name}/${excluded}`);
