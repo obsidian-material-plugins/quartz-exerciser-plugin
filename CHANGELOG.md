@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+### Patch Changes
+
+- d5398b3: Keep the package, Quartz manifest, and lockfile versions aligned during automated releases and normalize the npm repository metadata.
+
 ## 0.2.0
 
 ### Minor Changes
