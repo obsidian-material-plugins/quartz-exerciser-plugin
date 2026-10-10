@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+### Patch Changes
+
+- 6f6ff32: Allow underscore-prefixed exercise directories while preserving single-directory path validation.
+
 ## 0.2.1
 
 ### Patch Changes
