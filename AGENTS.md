@@ -9,6 +9,7 @@
 - Keep transformer, emitter, `applyExerciseIgnorePatterns`, public types, package manifest categories, and documentation aligned.
 - `applyExerciseIgnorePatterns` must run after configuration loading but before Quartz content discovery.
 - Reject absolute/traversing exercise paths and manifest paths.
+- Exercise names are one directory segment: the first character may be alphanumeric or `_`, the rest may also contain `.`, `_`, or `-`; keep leading dots and all path separators invalid.
 - Never render, publish, or archive `.exercise.yml`.
 - `exclude-from-quartz` is a pre-glob and archive boundary; `hide-from-preview` affects the viewer only.
 - Missing/malformed root preview configuration falls back to 50 MB unless the host supplies another valid default.
