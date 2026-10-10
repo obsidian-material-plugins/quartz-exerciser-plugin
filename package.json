@@ -1,6 +1,6 @@
 {
   "name": "@obsidian-material-plugins/quartz-exerciser-plugin",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Responsive, read-only exercise project viewer for Quartz 5.",
   "type": "module",
   "license": "MIT",
@@ -87,7 +87,7 @@
       "transformer",
       "emitter"
     ],
-    "version": "0.2.1",
+    "version": "0.2.2",
     "quartzVersion": ">=5.0.0",
     "dependencies": [],
     "defaultOrder": 10,
