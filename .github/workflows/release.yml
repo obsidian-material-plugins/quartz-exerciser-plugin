@@ -19,7 +19,9 @@ jobs:
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org"
-      - run: npm install
+      - name: Use npm with trusted publishing support
+        run: npm install --global npm@12.2.0
+      - run: npm ci
       - name: Create Release PR or Publish
         uses: changesets/action@v1
         with:
