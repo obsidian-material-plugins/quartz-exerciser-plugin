@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import type { Dirent } from "node:fs";
 import path from "node:path";
 import type { QuartzConfig } from "@quartz-community/types";
 import {
@@ -19,17 +20,19 @@ export const applyExerciseIgnorePatterns = async (
   config.configuration.ignorePatterns = ignorePatterns;
   const patterns = new Set(ignorePatterns);
   patterns.add(`${EXERCISE_ROOT}/*/${MANIFEST_FILE}`);
+  let entries: Dirent[];
   try {
-    const entries = await fs.readdir(exerciseRoot, { withFileTypes: true });
-    for (const entry of entries) {
-      if (!entry.isDirectory() || !normalizeExerciseName(entry.name)) continue;
-      const manifest = await readExerciseManifest(path.join(exerciseRoot, entry.name));
-      for (const excluded of manifest.files["exclude-from-quartz"]) {
-        patterns.add(`${EXERCISE_ROOT}/${entry.name}/${excluded}`);
-      }
+    entries = await fs.readdir(exerciseRoot, { withFileTypes: true });
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    entries = [];
+  }
+  for (const entry of entries) {
+    if (!entry.isDirectory() || !normalizeExerciseName(entry.name)) continue;
+    const manifest = await readExerciseManifest(path.join(exerciseRoot, entry.name));
+    for (const excluded of manifest.files["exclude-from-quartz"]) {
+      patterns.add(`${EXERCISE_ROOT}/${entry.name}/${excluded}`);
     }
-  } catch {
-    // The fixed root is created by the Obsidian plugin when first needed.
   }
   ignorePatterns.splice(0, ignorePatterns.length, ...patterns);
 };

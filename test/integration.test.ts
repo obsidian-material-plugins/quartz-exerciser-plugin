@@ -31,7 +31,7 @@ annotations:
     inject-into-export: true
 `,
   );
-  return { root, content };
+  return { root, content, exercise };
 };
 
 afterEach(async () => {
@@ -57,5 +57,12 @@ describe("Quartz integration boundaries", () => {
     const archive = unzipSync(new Uint8Array(await fs.readFile(emitted[0]!)));
     expect(Object.keys(archive)).toEqual(["exercise-1/src/Main.java"]);
     expect(strFromU8(archive["exercise-1/src/Main.java"]!)).toContain("// Start here.");
+  });
+
+  it("fails the pre-build boundary for a forward manifest version", async () => {
+    const { content, exercise } = await fixture();
+    await fs.writeFile(path.join(exercise, ".exercise.yml"), "version: 2\n");
+    const config = { configuration: { ignorePatterns: [] } } as unknown as QuartzConfig;
+    await expect(applyExerciseIgnorePatterns(config, content)).rejects.toThrow("version 2");
   });
 });

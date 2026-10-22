@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+### Minor Changes
+
+- Declare the shared Exerciser v1 contracts and fail builds for missing or unsupported manifest versions.
+
 ## 0.2.2
 
 ### Patch Changes
