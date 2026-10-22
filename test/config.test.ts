@@ -63,4 +63,9 @@ preview:
     expect(manifest.files["exclude-from-quartz"]).toEqual(["solutions/**"]);
     expect(manifest.preview["ignore-size-limit"]).toBe(true);
   });
+
+  it("rejects missing and unsupported manifest versions", () => {
+    expect(() => parseExerciseManifest("files: {}")).toThrow("version missing");
+    expect(() => parseExerciseManifest("version: 2\nfiles: {}")).toThrow("version 2");
+  });
 });

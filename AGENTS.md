@@ -7,6 +7,7 @@
 ## Contracts
 
 - Keep transformer, emitter, `applyExerciseIgnorePatterns`, public types, package manifest categories, and documentation aligned.
+- Implement only the declared `exercise-fence/v1`, `exercise-manifest/v1`, and `exercise-preview-limit/v1` contracts from `obsidian-material-plugins/plugin-contracts`. Reject unsupported manifest versions instead of silently interpreting them as version 1.
 - `applyExerciseIgnorePatterns` must run after configuration loading but before Quartz content discovery.
 - Reject absolute/traversing exercise paths and manifest paths.
 - Exercise names are one directory segment: the first character may be alphanumeric or `_`, the rest may also contain `.`, `_`, or `-`; keep leading dots and all path separators invalid.

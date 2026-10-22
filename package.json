@@ -1,12 +1,17 @@
 {
   "name": "@obsidian-material-plugins/quartz-exerciser-plugin",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Responsive, read-only exercise project viewer for Quartz 5.",
   "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/obsidian-material-plugins/quartz-exerciser-plugin.git"
+  },
+  "pluginContracts": {
+    "exercise-fence": 1,
+    "exercise-manifest": 1,
+    "exercise-preview-limit": 1
   },
   "keywords": [
     "quartz",
@@ -87,7 +92,7 @@
       "transformer",
       "emitter"
     ],
-    "version": "0.2.2",
+    "version": "0.3.0",
     "quartzVersion": ">=5.0.0",
     "dependencies": [],
     "defaultOrder": 10,

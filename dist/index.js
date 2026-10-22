@@ -7397,6 +7397,10 @@ var normalizeAnnotations = (value) => {
 };
 var parseExerciseManifest = (source) => {
   const parsed = asObject(import_yaml.default.parse(source));
+  if (parsed.version !== 1) {
+    const version = parsed.version === void 0 ? "missing" : JSON.stringify(parsed.version);
+    throw new Error(`Unsupported exercise manifest version ${version}; expected version 1.`);
+  }
   const manifest = emptyManifest();
   const files = asObject(parsed.files);
   const preview2 = asObject(parsed.preview);
@@ -7413,8 +7417,9 @@ var readExerciseManifest = async (exerciseDirectory) => {
     return parseExerciseManifest(
       await fs2.readFile(path3.join(exerciseDirectory, MANIFEST_FILE), "utf8")
     );
-  } catch {
-    return emptyManifest();
+  } catch (error) {
+    if (error.code === "ENOENT") return emptyManifest();
+    throw error;
   }
 };
 var parseExerciseFence = (source) => {
@@ -10575,16 +10580,19 @@ var applyExerciseIgnorePatterns = async (config, contentDirectory = "content") =
   config.configuration.ignorePatterns = ignorePatterns;
   const patterns = new Set(ignorePatterns);
   patterns.add(`${EXERCISE_ROOT}/*/${MANIFEST_FILE}`);
+  let entries;
   try {
-    const entries = await fs2.readdir(exerciseRoot, { withFileTypes: true });
-    for (const entry of entries) {
-      if (!entry.isDirectory() || !normalizeExerciseName(entry.name)) continue;
-      const manifest = await readExerciseManifest(path3.join(exerciseRoot, entry.name));
-      for (const excluded of manifest.files["exclude-from-quartz"]) {
-        patterns.add(`${EXERCISE_ROOT}/${entry.name}/${excluded}`);
-      }
+    entries = await fs2.readdir(exerciseRoot, { withFileTypes: true });
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+    entries = [];
+  }
+  for (const entry of entries) {
+    if (!entry.isDirectory() || !normalizeExerciseName(entry.name)) continue;
+    const manifest = await readExerciseManifest(path3.join(exerciseRoot, entry.name));
+    for (const excluded of manifest.files["exclude-from-quartz"]) {
+      patterns.add(`${EXERCISE_ROOT}/${entry.name}/${excluded}`);
     }
-  } catch {
   }
   ignorePatterns.splice(0, ignorePatterns.length, ...patterns);
 };

@@ -146,6 +146,10 @@ const normalizeAnnotations = (value: unknown): ExerciseAnnotation[] => {
 
 export const parseExerciseManifest = (source: string): ExerciseManifest => {
   const parsed = asObject(YAML.parse(source));
+  if (parsed.version !== 1) {
+    const version = parsed.version === undefined ? "missing" : JSON.stringify(parsed.version);
+    throw new Error(`Unsupported exercise manifest version ${version}; expected version 1.`);
+  }
   const manifest = emptyManifest();
   const files = asObject(parsed.files);
   const preview = asObject(parsed.preview);
@@ -165,8 +169,9 @@ export const readExerciseManifest = async (
     return parseExerciseManifest(
       await fs.readFile(path.join(exerciseDirectory, MANIFEST_FILE), "utf8"),
     );
-  } catch {
-    return emptyManifest();
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return emptyManifest();
+    throw error;
   }
 };
 

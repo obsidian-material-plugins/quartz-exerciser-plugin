@@ -86,6 +86,8 @@ annotations:
 
 The sidecar is never rendered, published as an asset, or included in ZIP files. Preview-hidden files remain in downloads. Quartz-excluded files do not.
 
+The fence, manifest, and preview-limit formats are versioned in the shared [plugin contract catalog](https://github.com/obsidian-material-plugins/plugin-contracts). Unsupported `.exercise.yml` versions fail the build so a newer contract is never interpreted as version 1.
+
 ## Viewer behavior
 
 - IDE tree/tabs and explicit compact dropdown views
