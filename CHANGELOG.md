@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Use the lockfile and npm download cache in CI for reproducible dependency setup.
+- Read the global settings-note filename from `book-structure/v2`, with the standalone `index.md` fallback, for the shared exercise preview limit.
+
 ## 0.3.0
 
 ### Minor Changes

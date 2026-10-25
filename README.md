@@ -99,7 +99,7 @@ The fence, manifest, and preview-limit formats are versioned in the shared [plug
 - light, dark, narrow, and forced-colors styling
 - English and Finnish viewer strings selected from the Quartz locale
 
-The root `content/index.md` frontmatter may set `exercise-preview-size-limit` as positive bytes or as `KB`, `MB`, or `GB`. Missing or malformed values use the configured fallback, which defaults to **50 MB**.
+The global settings note may set `exercise-preview-size-limit` as positive bytes or as `KB`, `MB`, or `GB`. The portable `book-structure/v2` record selects its root filename; without that record, the plugin reads `content/index.md`. The setting is global-only. Missing or malformed values use the configured fallback, which defaults to **50 MB**.
 
 ## Development
 

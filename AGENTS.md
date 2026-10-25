@@ -7,13 +7,13 @@
 ## Contracts
 
 - Keep transformer, emitter, `applyExerciseIgnorePatterns`, public types, package manifest categories, and documentation aligned.
-- Implement only the declared `exercise-fence/v1`, `exercise-manifest/v1`, and `exercise-preview-limit/v1` contracts from `obsidian-material-plugins/plugin-contracts`. Reject unsupported manifest versions instead of silently interpreting them as version 1.
+- Implement the declared `book-structure/v2`, `exercise-fence/v1`, `exercise-manifest/v1`, and `exercise-preview-limit/v2` contracts from `obsidian-material-plugins/plugin-contracts`. Reject unsupported manifest versions instead of silently interpreting them as version 1.
 - `applyExerciseIgnorePatterns` must run after configuration loading but before Quartz content discovery.
 - Reject absolute/traversing exercise paths and manifest paths.
 - Exercise names are one directory segment: the first character may be alphanumeric or `_`, the rest may also contain `.`, `_`, or `-`; keep leading dots and all path separators invalid.
 - Never render, publish, or archive `.exercise.yml`.
 - `exclude-from-quartz` is a pre-glob and archive boundary; `hide-from-preview` affects the viewer only.
-- Missing/malformed root preview configuration falls back to 50 MB unless the host supplies another valid default.
+- Read the global settings-note basename from `book-structure/v2` when its portable record exists; otherwise use root `index.md`. Missing/malformed `exercise-preview-size-limit` falls back to 50 MB unless the host supplies another valid default. This property is global-only.
 - Keep both `ide` and `dropdown` layouts and responsive narrow behavior.
 - Use Quartz host tokens and syntax markup; keep the inline script SPA-safe with `nav` and `window.addCleanup`.
 - Root Index Panels is optional and must never be imported or declared as a dependency.
