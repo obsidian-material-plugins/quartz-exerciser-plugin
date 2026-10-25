@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { readGlobalSettingsNotePath } from "./settings-note";
 import { minimatch } from "minimatch";
 import type { BuildCtx } from "@quartz-community/types";
 import {
@@ -238,9 +239,10 @@ export const loadViewerPayload = async (
   if (paths.length === 0) return { error: "empty" };
 
   let previewLimit = options.defaultPreviewLimitBytes || DEFAULT_PREVIEW_LIMIT_BYTES;
+  const globalNote = await readGlobalSettingsNotePath(contentRoot);
   try {
     previewLimit = parsePreviewLimit(
-      await fs.readFile(path.join(contentRoot, "index.md"), "utf8"),
+      await fs.readFile(path.join(contentRoot, globalNote), "utf8"),
       previewLimit,
     );
   } catch {

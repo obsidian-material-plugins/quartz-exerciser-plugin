@@ -1,6 +1,6 @@
 import { createRequire } from 'module';
-import fs2 from 'fs/promises';
-import path3 from 'path';
+import fs3 from 'fs/promises';
+import path4 from 'path';
 
 const require$1 = createRequire(import.meta.url);
 var __create = Object.create;
@@ -110,17 +110,17 @@ var require_visit = __commonJS({
     visit.BREAK = BREAK;
     visit.SKIP = SKIP;
     visit.REMOVE = REMOVE;
-    function visit_(key, node, visitor, path6) {
-      const ctrl = callVisitor(key, node, visitor, path6);
+    function visit_(key, node, visitor, path7) {
+      const ctrl = callVisitor(key, node, visitor, path7);
       if (identity.isNode(ctrl) || identity.isPair(ctrl)) {
-        replaceNode(key, path6, ctrl);
-        return visit_(key, ctrl, visitor, path6);
+        replaceNode(key, path7, ctrl);
+        return visit_(key, ctrl, visitor, path7);
       }
       if (typeof ctrl !== "symbol") {
         if (identity.isCollection(node)) {
-          path6 = Object.freeze(path6.concat(node));
+          path7 = Object.freeze(path7.concat(node));
           for (let i = 0; i < node.items.length; ++i) {
-            const ci = visit_(i, node.items[i], visitor, path6);
+            const ci = visit_(i, node.items[i], visitor, path7);
             if (typeof ci === "number")
               i = ci - 1;
             else if (ci === BREAK)
@@ -131,13 +131,13 @@ var require_visit = __commonJS({
             }
           }
         } else if (identity.isPair(node)) {
-          path6 = Object.freeze(path6.concat(node));
-          const ck = visit_("key", node.key, visitor, path6);
+          path7 = Object.freeze(path7.concat(node));
+          const ck = visit_("key", node.key, visitor, path7);
           if (ck === BREAK)
             return BREAK;
           else if (ck === REMOVE)
             node.key = null;
-          const cv = visit_("value", node.value, visitor, path6);
+          const cv = visit_("value", node.value, visitor, path7);
           if (cv === BREAK)
             return BREAK;
           else if (cv === REMOVE)
@@ -158,17 +158,17 @@ var require_visit = __commonJS({
     visitAsync.BREAK = BREAK;
     visitAsync.SKIP = SKIP;
     visitAsync.REMOVE = REMOVE;
-    async function visitAsync_(key, node, visitor, path6) {
-      const ctrl = await callVisitor(key, node, visitor, path6);
+    async function visitAsync_(key, node, visitor, path7) {
+      const ctrl = await callVisitor(key, node, visitor, path7);
       if (identity.isNode(ctrl) || identity.isPair(ctrl)) {
-        replaceNode(key, path6, ctrl);
-        return visitAsync_(key, ctrl, visitor, path6);
+        replaceNode(key, path7, ctrl);
+        return visitAsync_(key, ctrl, visitor, path7);
       }
       if (typeof ctrl !== "symbol") {
         if (identity.isCollection(node)) {
-          path6 = Object.freeze(path6.concat(node));
+          path7 = Object.freeze(path7.concat(node));
           for (let i = 0; i < node.items.length; ++i) {
-            const ci = await visitAsync_(i, node.items[i], visitor, path6);
+            const ci = await visitAsync_(i, node.items[i], visitor, path7);
             if (typeof ci === "number")
               i = ci - 1;
             else if (ci === BREAK)
@@ -179,13 +179,13 @@ var require_visit = __commonJS({
             }
           }
         } else if (identity.isPair(node)) {
-          path6 = Object.freeze(path6.concat(node));
-          const ck = await visitAsync_("key", node.key, visitor, path6);
+          path7 = Object.freeze(path7.concat(node));
+          const ck = await visitAsync_("key", node.key, visitor, path7);
           if (ck === BREAK)
             return BREAK;
           else if (ck === REMOVE)
             node.key = null;
-          const cv = await visitAsync_("value", node.value, visitor, path6);
+          const cv = await visitAsync_("value", node.value, visitor, path7);
           if (cv === BREAK)
             return BREAK;
           else if (cv === REMOVE)
@@ -212,23 +212,23 @@ var require_visit = __commonJS({
       }
       return visitor;
     }
-    function callVisitor(key, node, visitor, path6) {
+    function callVisitor(key, node, visitor, path7) {
       if (typeof visitor === "function")
-        return visitor(key, node, path6);
+        return visitor(key, node, path7);
       if (identity.isMap(node))
-        return visitor.Map?.(key, node, path6);
+        return visitor.Map?.(key, node, path7);
       if (identity.isSeq(node))
-        return visitor.Seq?.(key, node, path6);
+        return visitor.Seq?.(key, node, path7);
       if (identity.isPair(node))
-        return visitor.Pair?.(key, node, path6);
+        return visitor.Pair?.(key, node, path7);
       if (identity.isScalar(node))
-        return visitor.Scalar?.(key, node, path6);
+        return visitor.Scalar?.(key, node, path7);
       if (identity.isAlias(node))
-        return visitor.Alias?.(key, node, path6);
+        return visitor.Alias?.(key, node, path7);
       return void 0;
     }
-    function replaceNode(key, path6, node) {
-      const parent = path6[path6.length - 1];
+    function replaceNode(key, path7, node) {
+      const parent = path7[path7.length - 1];
       if (identity.isCollection(parent)) {
         parent.items[key] = node;
       } else if (identity.isPair(parent)) {
@@ -831,10 +831,10 @@ var require_Collection = __commonJS({
     var createNode = require_createNode();
     var identity = require_identity();
     var Node = require_Node();
-    function collectionFromPath(schema, path6, value) {
+    function collectionFromPath(schema, path7, value) {
       let v = value;
-      for (let i = path6.length - 1; i >= 0; --i) {
-        const k = path6[i];
+      for (let i = path7.length - 1; i >= 0; --i) {
+        const k = path7[i];
         if (typeof k === "number" && Number.isInteger(k) && k >= 0) {
           const a = [];
           a[k] = v;
@@ -853,7 +853,7 @@ var require_Collection = __commonJS({
         sourceObjects: /* @__PURE__ */ new Map()
       });
     }
-    var isEmptyPath = (path6) => path6 == null || typeof path6 === "object" && !!path6[Symbol.iterator]().next().done;
+    var isEmptyPath = (path7) => path7 == null || typeof path7 === "object" && !!path7[Symbol.iterator]().next().done;
     var Collection = class extends Node.NodeBase {
       constructor(type, schema) {
         super(type);
@@ -883,11 +883,11 @@ var require_Collection = __commonJS({
        * be a Pair instance or a `{ key, value }` object, which may not have a key
        * that already exists in the map.
        */
-      addIn(path6, value) {
-        if (isEmptyPath(path6))
+      addIn(path7, value) {
+        if (isEmptyPath(path7))
           this.add(value);
         else {
-          const [key, ...rest] = path6;
+          const [key, ...rest] = path7;
           const node = this.get(key, true);
           if (identity.isCollection(node))
             node.addIn(rest, value);
@@ -901,8 +901,8 @@ var require_Collection = __commonJS({
        * Removes a value from the collection.
        * @returns `true` if the item was found and removed.
        */
-      deleteIn(path6) {
-        const [key, ...rest] = path6;
+      deleteIn(path7) {
+        const [key, ...rest] = path7;
         if (rest.length === 0)
           return this.delete(key);
         const node = this.get(key, true);
@@ -916,8 +916,8 @@ var require_Collection = __commonJS({
        * scalar values from their surrounding node; to disable set `keepScalar` to
        * `true` (collections are always returned intact).
        */
-      getIn(path6, keepScalar) {
-        const [key, ...rest] = path6;
+      getIn(path7, keepScalar) {
+        const [key, ...rest] = path7;
         const node = this.get(key, true);
         if (rest.length === 0)
           return !keepScalar && identity.isScalar(node) ? node.value : node;
@@ -935,8 +935,8 @@ var require_Collection = __commonJS({
       /**
        * Checks if the collection includes a value with the key `key`.
        */
-      hasIn(path6) {
-        const [key, ...rest] = path6;
+      hasIn(path7) {
+        const [key, ...rest] = path7;
         if (rest.length === 0)
           return this.has(key);
         const node = this.get(key, true);
@@ -946,8 +946,8 @@ var require_Collection = __commonJS({
        * Sets a value in this collection. For `!!set`, `value` needs to be a
        * boolean to add/remove the item from the set.
        */
-      setIn(path6, value) {
-        const [key, ...rest] = path6;
+      setIn(path7, value) {
+        const [key, ...rest] = path7;
         if (rest.length === 0) {
           this.set(key, value);
         } else {
@@ -3427,9 +3427,9 @@ var require_Document = __commonJS({
           this.contents.add(value);
       }
       /** Adds a value to the document. */
-      addIn(path6, value) {
+      addIn(path7, value) {
         if (assertCollection(this.contents))
-          this.contents.addIn(path6, value);
+          this.contents.addIn(path7, value);
       }
       /**
        * Create a new `Alias` node, ensuring that the target `node` has the required anchor.
@@ -3504,14 +3504,14 @@ var require_Document = __commonJS({
        * Removes a value from the document.
        * @returns `true` if the item was found and removed.
        */
-      deleteIn(path6) {
-        if (Collection.isEmptyPath(path6)) {
+      deleteIn(path7) {
+        if (Collection.isEmptyPath(path7)) {
           if (this.contents == null)
             return false;
           this.contents = null;
           return true;
         }
-        return assertCollection(this.contents) ? this.contents.deleteIn(path6) : false;
+        return assertCollection(this.contents) ? this.contents.deleteIn(path7) : false;
       }
       /**
        * Returns item at `key`, or `undefined` if not found. By default unwraps
@@ -3526,10 +3526,10 @@ var require_Document = __commonJS({
        * scalar values from their surrounding node; to disable set `keepScalar` to
        * `true` (collections are always returned intact).
        */
-      getIn(path6, keepScalar) {
-        if (Collection.isEmptyPath(path6))
+      getIn(path7, keepScalar) {
+        if (Collection.isEmptyPath(path7))
           return !keepScalar && identity.isScalar(this.contents) ? this.contents.value : this.contents;
-        return identity.isCollection(this.contents) ? this.contents.getIn(path6, keepScalar) : void 0;
+        return identity.isCollection(this.contents) ? this.contents.getIn(path7, keepScalar) : void 0;
       }
       /**
        * Checks if the document includes a value with the key `key`.
@@ -3540,10 +3540,10 @@ var require_Document = __commonJS({
       /**
        * Checks if the document includes a value at `path`.
        */
-      hasIn(path6) {
-        if (Collection.isEmptyPath(path6))
+      hasIn(path7) {
+        if (Collection.isEmptyPath(path7))
           return this.contents !== void 0;
-        return identity.isCollection(this.contents) ? this.contents.hasIn(path6) : false;
+        return identity.isCollection(this.contents) ? this.contents.hasIn(path7) : false;
       }
       /**
        * Sets a value in this document. For `!!set`, `value` needs to be a
@@ -3560,13 +3560,13 @@ var require_Document = __commonJS({
        * Sets a value in this document. For `!!set`, `value` needs to be a
        * boolean to add/remove the item from the set.
        */
-      setIn(path6, value) {
-        if (Collection.isEmptyPath(path6)) {
+      setIn(path7, value) {
+        if (Collection.isEmptyPath(path7)) {
           this.contents = value;
         } else if (this.contents == null) {
-          this.contents = Collection.collectionFromPath(this.schema, Array.from(path6), value);
+          this.contents = Collection.collectionFromPath(this.schema, Array.from(path7), value);
         } else if (assertCollection(this.contents)) {
-          this.contents.setIn(path6, value);
+          this.contents.setIn(path7, value);
         }
       }
       /**
@@ -5507,9 +5507,9 @@ var require_cst_visit = __commonJS({
     visit.BREAK = BREAK;
     visit.SKIP = SKIP;
     visit.REMOVE = REMOVE;
-    visit.itemAtPath = (cst, path6) => {
+    visit.itemAtPath = (cst, path7) => {
       let item = cst;
-      for (const [field, index] of path6) {
+      for (const [field, index] of path7) {
         const tok = item?.[field];
         if (tok && "items" in tok) {
           item = tok.items[index];
@@ -5518,23 +5518,23 @@ var require_cst_visit = __commonJS({
       }
       return item;
     };
-    visit.parentCollection = (cst, path6) => {
-      const parent = visit.itemAtPath(cst, path6.slice(0, -1));
-      const field = path6[path6.length - 1][0];
+    visit.parentCollection = (cst, path7) => {
+      const parent = visit.itemAtPath(cst, path7.slice(0, -1));
+      const field = path7[path7.length - 1][0];
       const coll = parent?.[field];
       if (coll && "items" in coll)
         return coll;
       throw new Error("Parent collection not found");
     };
-    function _visit(path6, item, visitor) {
-      let ctrl = visitor(item, path6);
+    function _visit(path7, item, visitor) {
+      let ctrl = visitor(item, path7);
       if (typeof ctrl === "symbol")
         return ctrl;
       for (const field of ["key", "value"]) {
         const token = item[field];
         if (token && "items" in token) {
           for (let i = 0; i < token.items.length; ++i) {
-            const ci = _visit(Object.freeze(path6.concat([[field, i]])), token.items[i], visitor);
+            const ci = _visit(Object.freeze(path7.concat([[field, i]])), token.items[i], visitor);
             if (typeof ci === "number")
               i = ci - 1;
             else if (ci === BREAK)
@@ -5545,10 +5545,10 @@ var require_cst_visit = __commonJS({
             }
           }
           if (typeof ctrl === "function" && field === "key")
-            ctrl = ctrl(item, path6);
+            ctrl = ctrl(item, path7);
         }
       }
-      return typeof ctrl === "function" ? ctrl(item, path6) : ctrl;
+      return typeof ctrl === "function" ? ctrl(item, path7) : ctrl;
     }
     exports.visit = visit;
   }
@@ -6846,14 +6846,14 @@ var require_parser = __commonJS({
             case "scalar":
             case "single-quoted-scalar":
             case "double-quoted-scalar": {
-              const fs5 = this.flowScalar(this.type);
+              const fs6 = this.flowScalar(this.type);
               if (atNextItem || it.value) {
-                map.items.push({ start, key: fs5, sep: [] });
+                map.items.push({ start, key: fs6, sep: [] });
                 this.onKeyLine = true;
               } else if (it.sep) {
-                this.stack.push(fs5);
+                this.stack.push(fs6);
               } else {
-                Object.assign(it, { key: fs5, sep: [] });
+                Object.assign(it, { key: fs6, sep: [] });
                 this.onKeyLine = true;
               }
               return;
@@ -6981,13 +6981,13 @@ var require_parser = __commonJS({
             case "scalar":
             case "single-quoted-scalar":
             case "double-quoted-scalar": {
-              const fs5 = this.flowScalar(this.type);
+              const fs6 = this.flowScalar(this.type);
               if (!it || it.value)
-                fc.items.push({ start: [], key: fs5, sep: [] });
+                fc.items.push({ start: [], key: fs6, sep: [] });
               else if (it.sep)
-                this.stack.push(fs5);
+                this.stack.push(fs6);
               else
-                Object.assign(it, { key: fs5, sep: [] });
+                Object.assign(it, { key: fs6, sep: [] });
               return;
             }
             case "flow-map-end":
@@ -7415,7 +7415,7 @@ var parseExerciseManifest = (source) => {
 var readExerciseManifest = async (exerciseDirectory) => {
   try {
     return parseExerciseManifest(
-      await fs2.readFile(path3.join(exerciseDirectory, MANIFEST_FILE), "utf8")
+      await fs3.readFile(path4.join(exerciseDirectory, MANIFEST_FILE), "utf8")
     );
   } catch (error) {
     if (error.code === "ENOENT") return emptyManifest();
@@ -7458,6 +7458,31 @@ var parsePreviewLimit = (rootIndexSource, fallback) => {
     return fallback;
   }
 };
+var INVALID_NAME = /[\\/:*?"<>|]/;
+var RESERVED_NAME = /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i;
+function globalSettingsNotePath(value) {
+  if (value === null || value === void 0) return "index.md";
+  if (typeof value !== "object" || Array.isArray(value))
+    throw new Error("Invalid settings-note convention");
+  const record = value;
+  if (record.contract !== "book-structure/v2")
+    throw new Error("Unsupported settings-note convention");
+  const name = record.globalNote;
+  if (typeof name !== "string" || !name.endsWith(".md") || name.length <= 3 || INVALID_NAME.test(name) || [...name].some((character) => character.charCodeAt(0) < 32) || RESERVED_NAME.test(name) || /[. ]\.md$/.test(name)) {
+    throw new Error("Invalid global settings-note filename");
+  }
+  return name;
+}
+async function readGlobalSettingsNotePath(contentRoot) {
+  let raw;
+  try {
+    raw = await fs3.readFile(path4.join(contentRoot, ".obsidian-to-quartz-workspace.json"), "utf8");
+  } catch (error) {
+    if (error.code === "ENOENT") return "index.md";
+    throw error;
+  }
+  return globalSettingsNotePath(JSON.parse(raw));
+}
 
 // node_modules/brace-expansion/node_modules/balanced-match/dist/esm/index.js
 var balanced = (a, b, str) => {
@@ -8579,11 +8604,11 @@ var qmarksTestNoExtDot = ([$0]) => {
   return (f) => f.length === len && f !== "." && f !== "..";
 };
 var defaultPlatform = typeof process === "object" && process ? typeof process.env === "object" && process.env && process.env.__MINIMATCH_TESTING_PLATFORM__ || process.platform : "posix";
-var path2 = {
+var path3 = {
   win32: { sep: "\\" },
   posix: { sep: "/" }
 };
-var sep = defaultPlatform === "win32" ? path2.win32.sep : path2.posix.sep;
+var sep = defaultPlatform === "win32" ? path3.win32.sep : path3.posix.sep;
 minimatch.sep = sep;
 var GLOBSTAR = /* @__PURE__ */ Symbol("globstar **");
 minimatch.GLOBSTAR = GLOBSTAR;
@@ -9425,12 +9450,12 @@ var matchesAny = (relativePath, patterns) => patterns.some((pattern) => minimatc
 var listExercisePaths = async (root) => {
   const result = [];
   const walk = async (directory, prefix = "") => {
-    const entries = await fs2.readdir(directory, { withFileTypes: true });
+    const entries = await fs3.readdir(directory, { withFileTypes: true });
     entries.sort((a, b) => a.name.localeCompare(b.name));
     for (const entry of entries) {
       if (entry.isSymbolicLink()) continue;
       const relative = prefix ? `${prefix}/${entry.name}` : entry.name;
-      if (entry.isDirectory()) await walk(path3.join(directory, entry.name), relative);
+      if (entry.isDirectory()) await walk(path4.join(directory, entry.name), relative);
       else if (entry.isFile() && relative !== MANIFEST_FILE) result.push(relative);
     }
   };
@@ -9449,7 +9474,7 @@ var getBasePath = (ctx) => {
   }
 };
 var classify = (filePath, size, limit, ignored) => {
-  const extension = path3.extname(filePath).toLowerCase();
+  const extension = path4.extname(filePath).toLowerCase();
   if (!ignored && size > limit) return { kind: "oversized", mime: mimeTypes[extension] };
   if (images.has(extension)) return { kind: "image", mime: mimeTypes[extension] };
   if (audio.has(extension)) return { kind: "audio", mime: mimeTypes[extension] };
@@ -9473,8 +9498,8 @@ var resolveOutputs = async (exerciseDirectory, exerciseName, basePath, manifest,
       let resolvedContent = example.content;
       if (example["content-file"]) {
         try {
-          resolvedContent = await fs2.readFile(
-            path3.join(exerciseDirectory, example["content-file"]),
+          resolvedContent = await fs3.readFile(
+            path4.join(exerciseDirectory, example["content-file"]),
             "utf8"
           );
         } catch {
@@ -9506,12 +9531,12 @@ var resolveOutputs = async (exerciseDirectory, exerciseName, basePath, manifest,
 };
 var loadViewerPayload = async (ctx, fence, options) => {
   if (options.exerciseRoot !== EXERCISE_ROOT) return { error: "invalid" };
-  const contentRoot = path3.resolve(ctx.argv.directory);
-  const exerciseDirectory = path3.resolve(contentRoot, EXERCISE_ROOT, fence.exercise);
-  const expectedPrefix = `${path3.resolve(contentRoot, EXERCISE_ROOT)}${path3.sep}`;
+  const contentRoot = path4.resolve(ctx.argv.directory);
+  const exerciseDirectory = path4.resolve(contentRoot, EXERCISE_ROOT, fence.exercise);
+  const expectedPrefix = `${path4.resolve(contentRoot, EXERCISE_ROOT)}${path4.sep}`;
   if (!exerciseDirectory.startsWith(expectedPrefix)) return { error: "invalid" };
   try {
-    if (!(await fs2.stat(exerciseDirectory)).isDirectory()) return { error: "missing" };
+    if (!(await fs3.stat(exerciseDirectory)).isDirectory()) return { error: "missing" };
   } catch {
     return { error: "missing" };
   }
@@ -9521,9 +9546,10 @@ var loadViewerPayload = async (ctx, fence, options) => {
   );
   if (paths.length === 0) return { error: "empty" };
   let previewLimit = options.defaultPreviewLimitBytes || DEFAULT_PREVIEW_LIMIT_BYTES;
+  const globalNote = await readGlobalSettingsNotePath(contentRoot);
   try {
     previewLimit = parsePreviewLimit(
-      await fs2.readFile(path3.join(contentRoot, "index.md"), "utf8"),
+      await fs3.readFile(path4.join(contentRoot, globalNote), "utf8"),
       previewLimit
     );
   } catch {
@@ -9531,8 +9557,8 @@ var loadViewerPayload = async (ctx, fence, options) => {
   const basePath = getBasePath(ctx);
   const files = [];
   for (const relative of paths) {
-    const absolute = path3.join(exerciseDirectory, relative);
-    const stat = await fs2.stat(absolute);
+    const absolute = path4.join(exerciseDirectory, relative);
+    const stat = await fs3.stat(absolute);
     const details = classify(
       relative,
       stat.size,
@@ -9543,14 +9569,14 @@ var loadViewerPayload = async (ctx, fence, options) => {
     let content;
     if (details.kind === "text") {
       try {
-        content = await fs2.readFile(absolute, "utf8");
+        content = await fs3.readFile(absolute, "utf8");
       } catch {
         content = void 0;
       }
     }
     files.push({
       path: relative,
-      basename: path3.posix.basename(posix(relative)),
+      basename: path4.posix.basename(posix(relative)),
       size: stat.size,
       ...details,
       content,
@@ -9582,7 +9608,7 @@ var loadViewerPayload = async (ctx, fence, options) => {
 var injectAnnotations = (source, relativePath, annotations) => {
   const relevant = annotations.filter((annotation) => annotation.source === relativePath && annotation["inject-into-export"]).sort((a, b) => b.line - a.line);
   if (relevant.length === 0) return source;
-  const extension = path3.extname(relativePath).toLowerCase();
+  const extension = path4.extname(relativePath).toLowerCase();
   const marker = [".py", ".rb", ".sh", ".yaml", ".yml"].includes(extension) ? "#" : "//";
   const text2 = new TextDecoder().decode(source);
   const lines = text2.split(/\r?\n/);
@@ -10528,23 +10554,23 @@ function zipSync(data, opts) {
   return out;
 }
 var emitExerciseArchives = async (contentRoot, outputRoot) => {
-  const root = path3.resolve(contentRoot, EXERCISE_ROOT);
+  const root = path4.resolve(contentRoot, EXERCISE_ROOT);
   const emitted = [];
   let exercises;
   try {
-    exercises = await fs2.readdir(root, { withFileTypes: true });
+    exercises = await fs3.readdir(root, { withFileTypes: true });
   } catch {
     return emitted;
   }
   for (const exercise of exercises.sort((a, b) => a.name.localeCompare(b.name))) {
     if (!exercise.isDirectory() || !normalizeExerciseName(exercise.name)) continue;
-    const directory = path3.join(root, exercise.name);
+    const directory = path4.join(root, exercise.name);
     const manifest = await readExerciseManifest(directory);
     const archiveEntries = {};
     for (const relative of await listExercisePaths(directory)) {
       if (matchesAny(relative, manifest.files["exclude-from-quartz"])) continue;
       const source = new Uint8Array(
-        await fs2.readFile(path3.join(directory, ...relative.split("/")))
+        await fs3.readFile(path4.join(directory, ...relative.split("/")))
       );
       archiveEntries[`${exercise.name}/${relative}`] = injectAnnotations(
         source,
@@ -10552,9 +10578,9 @@ var emitExerciseArchives = async (contentRoot, outputRoot) => {
         manifest.annotations
       );
     }
-    const destination = path3.join(outputRoot, "exercises", `${exercise.name}.zip`);
-    await fs2.mkdir(path3.dirname(destination), { recursive: true });
-    await fs2.writeFile(destination, zipSync(archiveEntries, { level: 6 }));
+    const destination = path4.join(outputRoot, "exercises", `${exercise.name}.zip`);
+    await fs3.mkdir(path4.dirname(destination), { recursive: true });
+    await fs3.writeFile(destination, zipSync(archiveEntries, { level: 6 }));
     emitted.push(destination.replace(/\\/g, "/"));
   }
   return emitted;
@@ -10575,21 +10601,21 @@ var emitter = (userOptions) => {
 };
 var applyExerciseIgnorePatterns = async (config, contentDirectory = "content") => {
   if (!config?.configuration) return;
-  const exerciseRoot = path3.resolve(contentDirectory, EXERCISE_ROOT);
+  const exerciseRoot = path4.resolve(contentDirectory, EXERCISE_ROOT);
   const ignorePatterns = config.configuration.ignorePatterns ?? [];
   config.configuration.ignorePatterns = ignorePatterns;
   const patterns = new Set(ignorePatterns);
   patterns.add(`${EXERCISE_ROOT}/*/${MANIFEST_FILE}`);
   let entries;
   try {
-    entries = await fs2.readdir(exerciseRoot, { withFileTypes: true });
+    entries = await fs3.readdir(exerciseRoot, { withFileTypes: true });
   } catch (error) {
     if (error.code !== "ENOENT") throw error;
     entries = [];
   }
   for (const entry of entries) {
     if (!entry.isDirectory() || !normalizeExerciseName(entry.name)) continue;
-    const manifest = await readExerciseManifest(path3.join(exerciseRoot, entry.name));
+    const manifest = await readExerciseManifest(path4.join(exerciseRoot, entry.name));
     for (const excluded of manifest.files["exclude-from-quartz"]) {
       patterns.add(`${EXERCISE_ROOT}/${entry.name}/${excluded}`);
     }
